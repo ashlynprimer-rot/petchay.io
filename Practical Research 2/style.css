@@ -1,0 +1,411 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+}
+
+body.dark-theme {
+  background: linear-gradient(135deg,#222,#34495e) !important;
+  color: #eafaf1 !important;
+}
+
+header {
+  background: #333;
+  color: #fff;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+nav {
+  background: #444;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+nav a:focus, button:focus, input:focus {
+  outline: 2px solid #27ae60;
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+:root {
+  --accent: #27ae60;
+  --accent-dark: #219150;
+  --toast-bg: rgba(0,0,0,0.75);
+  --site-bg-url: none;
+  --site-bg-overlay: rgba(168,230,207,0.55); /* soft green overlay */
+  --site-bg-dark-overlay: rgba(0,0,0,0.28);
+}
+
+/* Toast notifications */
+#toastContainer {
+  position: fixed;
+  right: 16px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  min-width: 200px;
+  max-width: 360px;
+  background: var(--toast-bg);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity .25s, transform .25s;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.toast.success { background: linear-gradient(90deg,var(--accent),var(--accent-dark)); }
+.toast.warn { background: #e67e22; }
+.toast.info { background: #34495e; }
+
+/* Button micro-interaction */
+button, .learn-btn, .back-btn, .theme-switcher, .feedback-btn {
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+button:active, .learn-btn:active, .back-btn:active {
+  transform: translateY(1px) scale(0.995);
+}
+
+/* Modal overlay polish */
+#feedbackModal > div, #feedbackModalSmall > div {
+  transform-origin: center top;
+  transition: transform .18s ease, opacity .18s ease;
+}
+#feedbackModal[aria-hidden="false"] > div { transform: translateY(0); opacity:1; }
+#feedbackModal[aria-hidden="true"] > div { transform: translateY(-8px); opacity:0; }
+
+/* Confetti canvas sits above page content */
+#confettiCanvas {
+  position: fixed;
+  pointer-events: none;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 1300;
+}
+
+/* When a site background is set, blend it with a soft overlay for readability */
+body.has-site-bg {
+  background-image:
+    linear-gradient(var(--site-bg-overlay), var(--site-bg-overlay)),
+    var(--site-bg-url);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /* ensure content contrast */
+  color: #0f172a;
+}
+
+/* allow a darker overlay variant if needed (apply by script) */
+body.has-site-bg.dark-overlay {
+  background-image:
+    linear-gradient(var(--site-bg-dark-overlay), var(--site-bg-dark-overlay)),
+    var(--site-bg-url);
+}
+
+/* Modern Card Effects */
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved Animations */
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Loading Spinner */
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #27ae60;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Enhanced Result Cards */
+.result-card {
+  background: linear-gradient(135deg, #f0fff4, #e6ffee);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 15px 0;
+  transition: all 0.3s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(39,174,96,0.15);
+}
+
+/* Interactive Tooltips */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background: rgba(39,174,96,0.95);
+  color: white;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+  font-size: 0.9em;
+  backdrop-filter: blur(5px);
+}
+
+/* Progress Indicators */
+.accuracy-meter {
+  width: 100%;
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  margin: 8px 0;
+  overflow: hidden;
+}
+
+.accuracy-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #27ae60, #2ecc71);
+  transition: width 0.5s ease;
+}
+
+/* Enhanced Result Cards */
+.detailed-result {
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 15px 0;
+  box-shadow: 0 8px 32px rgba(39,174,96,0.1);
+  transition: all 0.3s ease;
+}
+
+.detailed-result:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 48px rgba(39,174,96,0.15);
+}
+
+.metric-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 12px 0;
+}
+
+.metric-value {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #219150;
+  min-width: 100px;
+}
+
+.metric-label {
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Real-time Updates */
+.updating {
+  position: relative;
+}
+
+.updating::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: #27ae60;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  .result-card {
+    padding: 15px;
+  }
+  
+  .metric-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .tooltip-text {
+    width: 160px;
+    margin-left: -80px;
+  }
+
+  .grid { 
+    grid-template-columns: 1fr;
+  }
+  .card {
+    margin: 10px;
+    padding: 15px;
+  }
+}
+
+/* New styles for preview/result card */
+.preview-card {
+  border-radius: 10px;
+  padding: 10px;
+  background: #fbfff9;
+  border: 1px solid #eef7ee;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+}
+
+#growthChart {
+  width: 100% !important;
+  height: 320px !important;
+  border-radius: 12px;
+  background: linear-gradient(180deg,#fbfff9,#f0fff4);
+  border: 1px solid #eef7ee;
+  padding: 8px;
+}
+
+/* button variant */
+button.secondary { background:#eef7ef;color:#14532d;border:1px solid rgba(33,145,80,0.06); }
+
+/* small responsive fix */
+@media (max-width:700px){
+  .grid { grid-template-columns: 1fr; }
+  .card { padding:14px; }
+}
+
+kbd {
+  background: #f0f0f0;
+  border-radius: 4px;
+  padding: 2px 6px;
+  border: 1px solid #e0e0e0;
+  font-weight: 600;
+  font-size: 0.85em;
+}
+
+input:focus, textarea:focus, select:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(33,145,80,0.14);
+  border-radius: 6px;
+}
+
+/* small focus ring class used by JS for accessibility */
+.focus-ring { box-shadow: 0 0 0 3px rgba(33,145,80,0.18) !important; }
+
+/* History table */
+#historyTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+#historyTable th, #historyTable td {
+  padding: 8px;
+  border-bottom: 1px solid #eef7ee;
+}
+#historyTable tbody tr:nth-child(odd) { background: #fcfff9; }
+
+/* compact modern input */
+input[type="number"], input[type="text"], textarea {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #dfeeed;
+  background: #fbfff9;
+  font-size: 0.95rem;
+}
+
+/* subtle primary/secondary button styles */
+.modern-btn.secondary {
+  background: #eef7ef;
+  color: var(--accent-dark);
+  box-shadow: none;
+  border: 1px solid rgba(33,145,80,0.06);
+}
+
+/* ensure tooltips above other UI */
+.tooltip-text { z-index: 1400; }
+
+/* Ensure modals appear above other content */
+.modal {
+  z-index: 1000;
+}

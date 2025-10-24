@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pechay Predictor — Home</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #26ab3a;
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+    nav {
+      background: #34495e;
+      padding: 0.8rem 0;
+      text-align: center;
+      margin: 0 0 20px 0;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+    nav ul li {
+      display: inline-block;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.08rem;
+      padding: 8px 18px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: #27ae60;
+      background: #eafaf1;
+      text-decoration: none;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: rgba(255,255,255,0.85);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      text-align: center;
+      position: relative;
+    }
+    h2 {
+      color: #219150;
+      margin-bottom: 20px;
+    }
+    .scanner-box {
+      border: 3px dashed #27ae60;
+      border-radius: 15px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      background: #f8fff8;
+      margin-bottom: 20px;
+    }
+    .scanner-box input {
+      display: none;
+    }
+    .scanner-box label {
+      display: block;
+      cursor: pointer;
+      color: #27ae60;
+      font-weight: bold;
+      padding: 10px;
+    }
+    .scanner-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: limegreen;
+      animation: scan 3s linear infinite;
+    }
+    @keyframes scan {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #ecf0f1;
+      border-left: 6px solid #27ae60;
+      border-radius: 12px;
+      font-size: 1rem;
+      display: none;
+      text-align: left;
+    }
+    footer {
+      margin-top: auto;
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+    .intro-section {
+      margin: 30px auto;
+      max-width: 700px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+      padding: 32px 28px;
+      text-align: center;
+    }
+    .intro-section h2 {
+      color: #219150;
+      margin-bottom: 12px;
+    }
+    .intro-section p {
+      font-size: 1.13rem;
+      color: #34495e;
+      margin-bottom: 10px;
+    }
+    .feature-list {
+      text-align: left;
+      margin: 18px auto 0 auto;
+      display: inline-block;
+      color: #219150;
+      font-size: 1.05rem;
+    }
+    .feature-list li {
+      margin-bottom: 7px;
+    }
+    .articles-section {
+      margin: 40px auto 30px auto;
+      max-width: 700px;
+      background: rgba(255,255,255,0.96);
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+      padding: 28px 24px;
+    }
+    .articles-section h3 {
+      color: #219150;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    .article-card {
+      background: #f8fff8;
+      border-left: 5px solid #27ae60;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .article-card:last-child {
+      margin-bottom: 0;
+    }
+    .article-card h4 {
+      margin: 0 0 6px 0;
+      color: #219150;
+      font-size: 1.08rem;
+    }
+    .article-card p {
+      margin: 0;
+      color: #34495e;
+      font-size: 0.98rem;
+    }
+    .user-greeting {
+      margin: 18px 0 0 0;
+      font-size: 1.12em;
+      color: #219150;
+      text-align: center;
+      font-weight: bold;
+    }
+    .theme-switcher {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+      padding: 8px 14px;
+      font-size: 1em;
+      cursor: pointer;
+      border: 1px solid #27ae60;
+      color: #219150;
+      transition: background 0.2s;
+    }
+    .theme-switcher:hover {
+      background: #eafaf1;
+    }
+    .feedback-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 100;
+      background: #27ae60;
+      color: #fff;
+      border-radius: 50px;
+      padding: 14px 22px;
+      font-size: 1.08em;
+      box-shadow: 0 2px 12px rgba(39,174,96,0.18);
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .feedback-btn:hover {
+      background: #219150;
+    }
+    #toastContainer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      max-width: 300px;
+      z-index: 1050;
+    }
+    .toast {
+      background: #fff;
+      color: #333;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    canvas#confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      display: none;
+    }
+    :root {
+      --site-bg-url: none;
+      --site-bg-overlay: rgba(168,230,207,0.55);
+    }
+    /* override when a background is applied (keeps existing layout) */
+    body.has-site-bg {
+      background-image: linear-gradient(var(--site-bg-overlay), var(--site-bg-overlay)), var(--site-bg-url);
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    @media (max-width: 700px) {
+      .container, .intro-section, .articles-section {
+        max-width: 98vw;
+        padding: 12px;
+      }
+      .theme-switcher, .feedback-btn {
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 0.98em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-switcher" id="themeSwitcher" aria-label="Switch theme">🌗 Theme</button>
+  <button class="feedback-btn" onclick="showFeedbackModal()" aria-label="Send feedback">💬 Feedback</button>
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);z-index:999;">
+    <div style="background:#fff;max-width:420px;margin:80px auto;padding:24px 18px;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,0.13);position:relative;">
+      <h3 style="color:#219150;margin-top:0;">Send Feedback</h3>
+      <label for="feedbackEmail" style="font-weight:bold;">Your Email (optional):</label>
+      <input id="feedbackEmail" type="email" style="width:100%;margin-bottom:10px;padding:7px;border-radius:6px;border:1px solid #27ae60;">
+      <label for="feedbackMsg" style="font-weight:bold;">Your Feedback:</label>
+      <textarea id="feedbackMsg" rows="4" style="width:100%;margin-bottom:10px;padding:7px;border-radius:6px;border:1px solid #27ae60;"></textarea>
+      <label style="display:block;margin-top:8px;"><input id="attachBgChk" type="checkbox"> Attach current background image to feedback</label>
+      <button onclick="submitFeedback()" style="background:#27ae60;color:white;padding:8px 18px;border-radius:8px;border:none;font-weight:bold;">Send</button>
+      <button onclick="closeFeedbackModal()" style="background:#eee;color:#219150;padding:8px 14px;border-radius:8px;border:none;font-weight:bold;margin-left:8px;">Cancel</button>
+      <div id="feedbackStatus" style="margin-top:10px;color:#219150;font-weight:bold;"></div>
+    </div>
+  </div>
+  <!-- Small onboarding modal (shown once) -->
+  <div id="feedbackModalSmall" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.28);z-index:1100;" aria-hidden="true">
+    <div style="background:#fff;max-width:420px;margin:80px auto;padding:20px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.15);">
+      <h3 style="color:#219150;margin-top:0;">Welcome to Pechay Predictor</h3>
+      <p style="margin:8px 0 12px 0;color:#444;">Tip: personalize your name, upload a background, and use the scanner — you'll see friendly prompts and visual feedback as you interact.</p>
+      <button onclick="dismissOnboard()" style="background:#27ae60;color:white;padding:8px 14px;border-radius:8px;border:none;font-weight:bold;">Got it</button>
+    </div>
+  </div>
+
+  <!-- Toast + Confetti -->
+  <div id="toastContainer" aria-hidden="true"></div>
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+  <header>
+    <h1>Pechay Predictor</h1>
+    <p>Smart Pechay Growth & Nutrient Scanner</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="RAPACULATOR.html" class="active">Main</a></li>
+      <li><a href="Predictor.html" id="scanNavBtn">RAPACULATOR Predictor</li>
+      <li><a href="pechay-scanner.html">Pechay Growth Scanner</a></li>
+      <li><a href="#" onclick="alert('About page coming soon!');return false;">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="user-greeting" id="userGreeting"></div>
+  <div style="text-align:center;margin-bottom:18px;">
+    <label for="userNameInput" style="color:#219150;font-weight:bold;">Personalize: Enter your name</label>
+    <input id="userNameInput" type="text" placeholder="Your name..." style="padding:6px 12px;border-radius:6px;border:1px solid #27ae60;margin-left:8px;">
+    <button onclick="setUserName()" style="background:#27ae60;color:white;padding:6px 14px;border-radius:6px;border:none;font-weight:bold;margin-left:6px;">Save</button>
+  </div>
+  <div style="text-align:center;margin-bottom:18px;">
+    <a href="Scanner.html" style="display:inline-block;background:#27ae60;color:white;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px rgba(39,174,96,0.12);margin-top:10px;">Scan Pechay Now &rarr;</a>
+  </div>
+
+  <!-- Background controls -->
+  <div style="text-align:center;margin:12px 0 18px 0;">
+    <label style="font-weight:bold;color:#14532d;margin-right:8px;">Site background:</label>
+    <input id="bgUploadInput" type="file" accept="image/*" style="display:inline-block;">
+    <button id="clearBgBtn" style="background:#eee;color:#219150;padding:6px 10px;border-radius:6px;border:1px solid #b2f2bb;margin-left:8px;">Clear</button>
+    <div id="bgPreview" style="margin-top:10px;display:none;">
+      <img id="bgPreviewImg" src="" alt="bg preview" style="max-width:220px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+      <div style="font-size:0.9em;color:#219150;margin-top:6px;">Uploaded background preview</div>
+    </div>
+  </div>
+
+  <!-- Intro Section -->
+  <div class="intro-section">
+    <h2>What is RAPACULATOR?</h2>
+    <p>
+      <strong>RAPACULATOR</strong> is an AI-powered tool designed to help farmers and gardeners monitor the health and nutrient status of <b>Pechay</b> (Chinese cabbage) using advanced image scanning technology.
+    </p>
+    <ul class="feature-list">
+      <li>📷 <b>Scan Pechay Leaves</b> for instant growth and nutrient analysis</li>
+      <li>🌱 Get actionable tips for optimal Pechay cultivation</li>
+      <li>📊 Access articles and resources about Pechay care and nutrition</li>
+      <li>🤖 Powered by AI for accurate, real-time results</li>
+    </ul>
+    <p style="margin-top:18px;">
+      <a href="Predictor.html" style="background:#27ae60;color:white;padding:10px 22px;border-radius:8px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px rgba(39,174,96,0.12);transition:background 0.2s;">Try the Predictor &rarr;</a>
+    </p>
+  </div>
+
+  <footer>
+    &copy; 2025 Larita / Sacurom / Mansueto - All Rights Reserved.
+  </footer>
+
+  <script>
+    // Personalization
+    function setUserName() {
+      const name = document.getElementById('userNameInput').value.trim();
+      if (name) {
+        localStorage.setItem('pechayUserName', name);
+        showGreeting();
+      }
+    }
+    function showGreeting() {
+      const name = localStorage.getItem('pechayUserName');
+      const el = document.getElementById('userGreeting');
+      if (name) {
+        el.textContent = `👋 Welcome, ${name}! Ready to scan your Pechay?`;
+      } else {
+        el.textContent = '';
+      }
+    }
+    document.getElementById('userNameInput').addEventListener('keydown', function(e){
+      if (e.key === 'Enter') setUserName();
+    });
+    showGreeting();
+
+    // Theme switcher
+    const themeSwitcher = document.getElementById('themeSwitcher');
+    themeSwitcher.addEventListener('click', () => {
+      const dark = document.body.classList.toggle('dark-theme');
+      if (dark) {
+        document.body.style.background = 'linear-gradient(135deg,#222,#34495e)';
+        document.body.style.color = '#eafaf1';
+        themeSwitcher.textContent = '🌞 Light';
+      } else {
+        document.body.style.background = '';
+        document.body.style.color = '';
+        themeSwitcher.textContent = '🌗 Theme';
+      }
+    });
+
+    // Feedback modal
+    function showFeedbackModal() {
+      document.getElementById('feedbackModal').style.display = 'block';
+      document.getElementById('feedbackStatus').textContent = '';
+      document.getElementById('feedbackEmail').value = '';
+      document.getElementById('feedbackMsg').value = '';
+    }
+    function closeFeedbackModal() {
+      document.getElementById('feedbackModal').style.display = 'none';
+    }
+    async function submitFeedback() {
+      const email = document.getElementById('feedbackEmail').value.trim();
+      const msg = document.getElementById('feedbackMsg').value.trim();
+      if (!msg) {
+        document.getElementById('feedbackStatus').textContent = 'Please enter your feedback.';
+        return;
+      }
+      document.getElementById('feedbackStatus').textContent = 'Sending...';
+      const includeBg = document.getElementById('attachBgChk') && document.getElementById('attachBgChk').checked;
+      const payload = { email, msg };
+      if (includeBg) payload.bgData = localStorage.getItem('siteBackgroundDataUrl') || '';
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Server error');
+        document.getElementById('feedbackStatus').textContent = 'Thank you for your feedback!';
+        showToast('Feedback sent', 'success');
+        setTimeout(closeFeedbackModal, 1200);
+      } catch (e) {
+        document.getElementById('feedbackStatus').textContent = 'Failed to send. Try again later.';
+        showToast('Failed to send feedback', 'warn');
+      }
+    }
+
+    // Toast helper
+    function notify(message, type='info', timeout=3500){
+      const container = document.getElementById('toastContainer');
+      container.setAttribute('aria-hidden','false');
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.textContent = message;
+      container.appendChild(t);
+      // show
+      requestAnimationFrame(()=>t.classList.add('show'));
+      // remove
+      setTimeout(()=>{
+        t.classList.remove('show');
+        setTimeout(()=>{ t.remove(); if(!container.hasChildNodes()) container.setAttribute('aria-hidden','true'); }, 220);
+      }, timeout);
+    }
+
+    // Confetti: lightweight particle burst
+    function confettiBurst(particles = 80, duration = 1500){
+      const c = document.getElementById('confettiCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const DPR = window.devicePixelRatio || 1;
+      c.width = innerWidth * DPR; c.height = innerHeight * DPR;
+      c.style.width = innerWidth + 'px'; c.style.height = innerHeight + 'px';
+      ctx.scale(DPR, DPR);
+      const parts = [];
+      for (let i=0;i<particles;i++){
+        parts.push({
+          x: innerWidth/2 + (Math.random()-0.5)*200,
+          y: innerHeight/3 + (Math.random()-0.5)*60,
+          vx: (Math.random()-0.5)*6,
+          vy: Math.random()*4 + 2,
+          r: Math.random()*6+3,
+          color: ['#f94144','#f3722c','#f8961e','#f9c74f','#90be6d','#43aa8b','#577590'][Math.floor(Math.random()*7)],
+          rot: Math.random()*360,
+          vr: (Math.random()-0.5)*10
+        });
+      }
+      const start = performance.now();
+      function frame(now){
+        const t = now - start;
+        ctx.clearRect(0,0,innerWidth, innerHeight);
+        for (const p of parts){
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.12; // gravity
+          p.rot += p.vr;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot * Math.PI/180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*0.6);
+          ctx.restore();
+        }
+        if (t < duration) requestAnimationFrame(frame);
+        else { ctx.clearRect(0,0,innerWidth,innerHeight); }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // Hook into existing submitFeedback success
+    const originalSubmitFeedback = submitFeedback;
+    window.submitFeedback = async function(){
+      const res = await originalSubmitFeedback();
+      // originalSubmitFeedback already shows messages in modal; show toast + confetti
+      // Wait a touch then notify
+      setTimeout(()=>{ notify('Feedback sent — thank you!', 'success'); confettiBurst(60); }, 400);
+      return res;
+    };
+
+    // When background updated through upload control (we already call applySavedBackground),
+    // show nicer toast and confetti
+    bgUploadInput.addEventListener('change', ()=> {
+      setTimeout(()=>{ notify('Background applied — looks great!', 'success'); }, 600);
+    });
+    clearBgBtn.addEventListener('click', ()=> notify('Background cleared', 'info'));
+
+    // Background helper: apply saved background if present
+    function applySavedBackground() {
+      const dataUrl = localStorage.getItem('siteBackgroundDataUrl');
+      if (dataUrl) {
+        // set css variable and class to allow stylesheet to control blending/overlay
+        document.documentElement.style.setProperty('--site-bg-url', `url(${dataUrl})`);
+        document.body.classList.add('has-site-bg');
+        // show preview
+        const preview = document.getElementById('bgPreview');
+        const img = document.getElementById('bgPreviewImg');
+        if (img && preview) { img.src = dataUrl; preview.style.display = 'block'; }
+      } else {
+        // clear CSS var and remove class
+        document.documentElement.style.removeProperty('--site-bg-url');
+        document.body.classList.remove('has-site-bg');
+        const preview = document.getElementById('bgPreview');
+        if (preview) preview.style.display = 'none';
+      }
+    }
+
+    // Upload control
+    const bgUploadInput = document.getElementById('bgUploadInput');
+    const clearBgBtn = document.getElementById('clearBgBtn');
+    bgUploadInput.addEventListener('change', async (ev) => {
+      const f = ev.target.files && ev.target.files[0];
+      if (!f) return;
+      if (!f.type.startsWith('image/')) return alert('Please select an image file.');
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        // store full data URL (client-side)
+        localStorage.setItem('siteBackgroundDataUrl', dataUrl);
+        applySavedBackground();
+        showToast('Background updated locally', 'success');
+      };
+      reader.readAsDataURL(f);
+    });
+    clearBgBtn.addEventListener('click', () => {
+      localStorage.removeItem('siteBackgroundDataUrl');
+      applySavedBackground();
+      showToast('Background cleared', 'info');
+    });
+
+    // small toast util (non-intrusive)
+    function showToast(msg, type='info', timeout=2500){
+      let c = document.getElementById('toastContainer');
+      if (!c) { c = document.createElement('div'); c.id='toastContainer'; document.body.appendChild(c); }
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.textContent = msg;
+      c.appendChild(t);
+      requestAnimationFrame(()=>t.classList.add('show'));
+      setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),250); }, timeout);
+    }
+
+    // Feedback submit: include background if checked
+    async function submitFeedback() {
+      const email = document.getElementById('feedbackEmail').value.trim();
+      const msg = document.getElementById('feedbackMsg').value.trim();
+      if (!msg) {
+        document.getElementById('feedbackStatus').textContent = 'Please enter your feedback.';
+        return;
+      }
+      document.getElementById('feedbackStatus').textContent = 'Sending...';
+      const includeBg = document.getElementById('attachBgChk') && document.getElementById('attachBgChk').checked;
+      const payload = { email, msg };
+      if (includeBg) payload.bgData = localStorage.getItem('siteBackgroundDataUrl') || '';
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Server error');
+        document.getElementById('feedbackStatus').textContent = 'Thank you for your feedback!';
+        showToast('Feedback sent', 'success');
+        setTimeout(closeFeedbackModal, 1200);
+      } catch (e) {
+        document.getElementById('feedbackStatus').textContent = 'Failed to send. Try again later.';
+        showToast('Failed to send feedback', 'warn');
+      }
+    }
+
+    // Init: wait for DOM to be ready and then apply background
+    document.addEventListener('DOMContentLoaded', () => {
+      applySavedBackground();
+    });
+  </script>
+</body>
+</html>
+
